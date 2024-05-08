@@ -78,11 +78,7 @@ func (e *merchantEndpoints) GetPartnerAppsConfig(req *web.Request) web.Response 
 		return e.errorResponse(errors.Wrapf(errors.ErrBadRequest, "merchant_id or client_id is required"))
 	}
 
-	if params.MerchantID != nil {
-		config, err = e.service.GetPartnerAppsConfigByMerchantID(req.Context(), *params.MerchantID)
-	} else {
-		config, err = e.service.GetPartnerAppsConfigByClientID(req.Context(), *params.ClientID)
-	}
+	config, err = e.service.GetPartnerAppsConfigByMerchantID(req.Context(), *params.MerchantID)
 
 	if err != nil {
 		return e.errorResponse(err)

@@ -27,7 +27,6 @@ type PartnerAppsConfig struct {
 type MerchantService interface {
 	UpsertPartnerAppsConfig(context.Context, PartnerAppsConfig) error
 	GetPartnerAppsConfigByMerchantID(context.Context, uuid.UUID) (MerchantPartnerAppsConfig, error)
-	GetPartnerAppsConfigByClientID(context.Context, uuid.UUID) (MerchantPartnerAppsConfig, error)
 }
 
 type merchantService struct {
@@ -68,17 +67,6 @@ func (m *merchantService) UpsertPartnerAppsConfig(ctx context.Context, updateCon
 
 func (m *merchantService) GetPartnerAppsConfigByMerchantID(ctx context.Context, merchantID uuid.UUID) (MerchantPartnerAppsConfig, error) {
 	config, err := m.merchantPartnerConfigRepo.GetConfigByMerchantID(ctx, merchantID)
-	if err != nil {
-		return MerchantPartnerAppsConfig{}, err
-	}
-
-	return MerchantPartnerAppsConfig{
-		PartnerAppsConfig: config.AppConfigs,
-	}, nil
-}
-
-func (m *merchantService) GetPartnerAppsConfigByClientID(ctx context.Context, clientID uuid.UUID) (MerchantPartnerAppsConfig, error) {
-	config, err := m.merchantPartnerConfigRepo.GetConfigByClientID(ctx, clientID)
 	if err != nil {
 		return MerchantPartnerAppsConfig{}, err
 	}

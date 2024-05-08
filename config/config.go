@@ -9,11 +9,6 @@ import (
 	"practice/lib/environment"
 )
 
-type ServiceConfig struct {
-	ID  string `env:"ID"`
-	Key string `env:"KEY"`
-}
-
 type RedisConfig struct {
 	DB   int    `env:"DB"`
 	Host string `env:"HOST"`
@@ -26,12 +21,10 @@ type DBConfig struct {
 }
 
 type Config struct {
-	Env     environment.Environment `env:"ENV"`
-	Debug   bool                    `env:"DEBUG"`
-	Service ServiceConfig           `envPrefix:"SERVICE_"`
-	Port    int                     `env:"PORT"`
-	Redis   RedisConfig             `envPrefix:"REDIS_"`
-	DB      DBConfig                `envPrefix:"DATABASE_"`
+	Env   environment.Environment `env:"ENV"`
+	Port  int                     `env:"PORT"`
+	Redis RedisConfig             `envPrefix:"REDIS_"`
+	DB    DBConfig                `envPrefix:"DATABASE_"`
 }
 
 var (

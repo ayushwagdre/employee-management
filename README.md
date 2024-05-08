@@ -13,3 +13,4 @@ export -f loadenv
 #create db and migrate
 bundle exec rake db:create
 bundle exec rake db:migrate
+
