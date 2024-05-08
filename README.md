@@ -1,5 +1,9 @@
 # practice
 
+# create a development.env
+cp env.sample development.env
+
+replace with your own local configuration
 loadenv()
 {
   echo "Loading $1"
