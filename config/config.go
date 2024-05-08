@@ -9,11 +9,6 @@ import (
 	"practice/lib/environment"
 )
 
-type RedisConfig struct {
-	DB   int    `env:"DB"`
-	Host string `env:"HOST"`
-}
-
 type DBConfig struct {
 	URL                string `env:"URL"`
 	MaxIdleConnections int    `env:"MAX_IDLE_CONNECTIONS"`
@@ -21,10 +16,9 @@ type DBConfig struct {
 }
 
 type Config struct {
-	Env   environment.Environment `env:"ENV"`
-	Port  int                     `env:"PORT"`
-	Redis RedisConfig             `envPrefix:"REDIS_"`
-	DB    DBConfig                `envPrefix:"DATABASE_"`
+	Env  environment.Environment `env:"ENV"`
+	Port int                     `env:"PORT"`
+	DB   DBConfig                `envPrefix:"DATABASE_"`
 }
 
 var (

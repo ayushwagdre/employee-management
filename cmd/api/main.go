@@ -15,7 +15,6 @@ import (
 
 	"practice/api/routes"
 	"practice/config"
-	"practice/lib/cache"
 	"practice/lib/db"
 	"practice/lib/logger"
 )
@@ -49,15 +48,6 @@ func init() {
 
 	logger.Init(logLevel, config.Env)
 
-	cache.InitRedisCache(&cache.RedisCacheOpts{
-		DB:                    config.Redis.DB,
-		Host:                  config.Redis.Host,
-		MaxIdleConnection:     redisMaxIdleConnection,
-		MaxActiveConnection:   redisMaxActiveConnection,
-		IdleConnectionTimeout: redisIdleConnectionTimeout,
-		MaxConnectionLifetime: redisMaxConnectionLifetime,
-	})
-
 	dbClient := db.NewDB(&db.DBOpts{
 		URL:                   config.DB.URL,
 		MaxIdleConnection:     config.DB.MaxIdleConnections,
@@ -75,7 +65,6 @@ func init() {
 
 func main() {
 	defer panicHandler()
-	defer cache.CloseRedisCache()
 	defer db.Get().Close()
 
 	config := config.NewConfig()

@@ -9,7 +9,6 @@ import (
 
 	"github.com/google/uuid"
 
-	"practice/lib/cache"
 	"practice/models"
 	repository "practice/repositories"
 )
@@ -30,7 +29,6 @@ type MerchantService interface {
 }
 
 type merchantService struct {
-	cache                     cache.Cache
 	merchantPartnerConfigRepo repository.MerchantPartnerConfigRepository
 }
 
@@ -41,7 +39,6 @@ const (
 
 func NewMerchantService() MerchantService {
 	return &merchantService{
-		cache:                     cache.NewRedisCache(),
 		merchantPartnerConfigRepo: repository.NewMerchantPartnerConfigRepository(),
 	}
 }

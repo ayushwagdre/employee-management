@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"net/textproto"
 	"reflect"
 	"strings"
 
@@ -96,10 +95,6 @@ func getPath(r *http.Request) string {
 	return path
 }
 
-func (r *Request) GetRoute() string {
-	return r.route
-}
-
 func (r *Request) GetPathParams() map[string]string {
 	return r.pathParams
 }
@@ -134,34 +129,6 @@ func (r *Request) QueryParams() map[string]string {
 	return r.params
 }
 
-// Headers shouldn't be used for logging
-func (r *Request) Headers() map[string]interface{} {
-	headers := map[string]interface{}{}
-	for key, value := range r.Header {
-		if strings.ToLower(key) == "content-type" {
-			continue
-		}
-		if strings.ToLower(key) == "accept" {
-			continue
-		}
-		headers[key] = value
-	}
-	return headers
-}
-
-// MaskedHeaders returns a request headers with masked values read from an array
-func (r *Request) MaskedHeaders() http.Header {
-	headers := r.Header.Clone()
-	for _, key := range headersToBeMasked {
-		k := textproto.CanonicalMIMEHeaderKey(key)
-		_, ok := headers[k]
-		if ok {
-			headers.Set(key, "*******")
-		}
-	}
-	return headers
-}
-
 func (r *Request) ReadBody() (map[string]interface{}, error) {
 	bodyMap := make(map[string]interface{})
 
@@ -179,7 +146,6 @@ func (r *Request) ReadBody() (map[string]interface{}, error) {
 	bodyMap, err = unmarshalRequestBody(bodyByte)
 	if err != nil {
 		logger.E(r.Context(), err, "Error unmarshalling request body",
-			zap.String("error", err.Error()), zap.Any("headers", r.MaskedHeaders()),
 			zap.String("url", r.URL.String()), zap.String("body", string(bodyByte)))
 	}
 	return bodyMap, err
