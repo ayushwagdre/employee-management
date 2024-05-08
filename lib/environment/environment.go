@@ -4,6 +4,10 @@ import "os"
 
 type Environment string
 
+const (
+	DevEnv Environment = "development"
+)
+
 type EnvProvider interface {
 	CurrEnv() Environment
 }
@@ -23,18 +27,9 @@ func (e Environment) String() string {
 func (e *osEnv) CurrEnv() Environment {
 	env := Environment(os.Getenv(e.key))
 	switch env {
-	case DevEnv, TestingEnv, StagingEnv, QAEnv, SandboxEnv, ProductionEnv, UnicornEnv:
+	case DevEnv:
 		return env
 	default:
 		panic("current os env is not a valid value")
-	}
-}
-
-func (e Environment) IsStructuredLogging() bool {
-	switch e {
-	case ProductionEnv, SandboxEnv, StagingEnv, QAEnv, UnicornEnv:
-		return true
-	default:
-		return false
 	}
 }

@@ -1,9 +1,7 @@
 package v1
 
-import (
-	"github.com/newrelic/go-agent/v3/integrations/nrhttprouter"
-)
+import "github.com/julienschmidt/httprouter"
 
-func Init(router *nrhttprouter.Router) {
+func Init(router *httprouter.Router) {
 	InitMerchantRoutes(router)
 }

@@ -9,8 +9,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/newrelic/go-agent/v3/integrations/nrhttprouter"
-	"github.com/newrelic/go-agent/v3/newrelic"
+	"github.com/julienschmidt/httprouter"
 	"go.uber.org/zap"
 
 	"practice/api/routes"
@@ -22,15 +21,9 @@ import (
 var ctx context.Context
 
 const (
-	cacheSize       = 10 * 1000 * 1000 * 2
 	reqReadTimeout  = 10 * time.Second
 	reqWriteTimeout = 10 * time.Second
 	reqIdleTimeout  = 60 * time.Second
-
-	redisMaxIdleConnection     = 20
-	redisMaxActiveConnection   = 20
-	redisIdleConnectionTimeout = 30 * time.Second
-	redisMaxConnectionLifetime = 24 * time.Hour
 )
 
 func panicHandler() {
@@ -68,8 +61,7 @@ func main() {
 	defer db.Get().Close()
 
 	config := config.NewConfig()
-	newRelicApp, _ := newrelic.NewApplication()
-	router := nrhttprouter.New(newRelicApp)
+	router := httprouter.New()
 
 	routes.Init(router)
 

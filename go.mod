@@ -5,13 +5,11 @@ go 1.19
 require (
 	github.com/caarlos0/env/v6 v6.10.1
 	github.com/go-playground/validator/v10 v10.20.0
-	github.com/gomodule/redigo v1.9.2
 	github.com/google/uuid v1.6.0
 	github.com/jinzhu/copier v0.4.0
 	github.com/joho/godotenv v1.5.1
 	github.com/julienschmidt/httprouter v1.3.0
 	github.com/newrelic/go-agent/v3 v3.33.0
-	github.com/newrelic/go-agent/v3/integrations/nrhttprouter v1.1.0
 	github.com/newrelic/go-agent/v3/integrations/nrpgx v1.0.1
 	github.com/pkg/errors v0.9.1
 	go.uber.org/zap v1.27.0

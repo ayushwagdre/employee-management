@@ -1,11 +1,11 @@
 package v1
 
 import (
-	"github.com/newrelic/go-agent/v3/integrations/nrhttprouter"
-
 	"practice/api/endpoints"
 	"practice/api/middlewares"
 	"practice/lib/web"
+
+	"github.com/julienschmidt/httprouter"
 )
 
 const (
@@ -14,7 +14,7 @@ const (
 )
 
 // InitMerchantPartnerRoutes initializes the routes related to merchant partner configuration.
-func InitMerchantRoutes(router *nrhttprouter.Router) {
+func InitMerchantRoutes(router *httprouter.Router) {
 	merchantEndpoints := endpoints.NewMerchantEndpoints()
 	router.POST(upsertPartnerAppsConfigEndpoint, web.Serve(merchantEndpoints.UpsertPartnerAppsConfig, middlewares.DefaultMiddlewares...))
 	router.GET(getPartnerAppsConfigEndpoint, web.Serve(merchantEndpoints.GetPartnerAppsConfig, middlewares.DefaultMiddlewares...))
