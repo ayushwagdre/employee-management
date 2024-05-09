@@ -20,7 +20,6 @@ github.com/go-playground/validator/v10
 github.com/go-playground/validator/v10/non-standard/validators
 # github.com/go-sql-driver/mysql v1.7.0
 ## explicit; go 1.13
-github.com/go-sql-driver/mysql
 # github.com/golang/protobuf v1.5.3
 ## explicit; go 1.9
 github.com/golang/protobuf/jsonpb
@@ -263,10 +262,8 @@ google.golang.org/protobuf/types/known/durationpb
 google.golang.org/protobuf/types/known/timestamppb
 # gorm.io/datatypes v1.2.0
 ## explicit; go 1.18
-gorm.io/datatypes
 # gorm.io/driver/mysql v1.4.7
 ## explicit; go 1.14
-gorm.io/driver/mysql
 # gorm.io/driver/postgres v1.5.7
 ## explicit; go 1.18
 gorm.io/driver/postgres

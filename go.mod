@@ -13,7 +13,6 @@ require (
 	github.com/newrelic/go-agent/v3/integrations/nrpgx v1.0.1
 	github.com/pkg/errors v0.9.1
 	go.uber.org/zap v1.27.0
-	gorm.io/datatypes v1.2.0
 	gorm.io/driver/postgres v1.5.7
 	gorm.io/gorm v1.25.10
 )
@@ -22,7 +21,6 @@ require (
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
-	github.com/go-sql-driver/mysql v1.7.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
@@ -49,5 +47,4 @@ require (
 	google.golang.org/genproto v0.0.0-20230410155749-daa745c078e1 // indirect
 	google.golang.org/grpc v1.56.3 // indirect
 	google.golang.org/protobuf v1.30.0 // indirect
-	gorm.io/driver/mysql v1.4.7 // indirect
 )
