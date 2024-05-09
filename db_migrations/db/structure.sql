@@ -9,14 +9,12 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-DROP INDEX IF EXISTS public.index_merchant_partner_configs_on_merchant_id_and_client_id;
-DROP INDEX IF EXISTS public.index_merchant_partner_configs_on_merchant_id;
-DROP INDEX IF EXISTS public.index_merchant_partner_configs_on_client_id;
 ALTER TABLE IF EXISTS ONLY public.schema_migrations DROP CONSTRAINT IF EXISTS schema_migrations_pkey;
-ALTER TABLE IF EXISTS ONLY public.merchant_partner_configs DROP CONSTRAINT IF EXISTS merchant_partner_configs_pkey;
+ALTER TABLE IF EXISTS ONLY public.employees DROP CONSTRAINT IF EXISTS employees_pkey;
 ALTER TABLE IF EXISTS ONLY public.ar_internal_metadata DROP CONSTRAINT IF EXISTS ar_internal_metadata_pkey;
 DROP TABLE IF EXISTS public.schema_migrations;
-DROP TABLE IF EXISTS public.merchant_partner_configs;
+DROP TABLE IF EXISTS public.employees;
+DROP SEQUENCE IF EXISTS public.employee_codes;
 DROP TABLE IF EXISTS public.ar_internal_metadata;
 DROP EXTENSION IF EXISTS "uuid-ossp";
 DROP EXTENSION IF EXISTS pgcrypto;
@@ -73,16 +71,30 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
--- Name: merchant_partner_configs; Type: TABLE; Schema: public; Owner: -
+-- Name: employee_codes; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.merchant_partner_configs (
+CREATE SEQUENCE public.employee_codes
+    START WITH 1000
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: employees; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.employees (
     id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
-    merchant_id uuid,
-    client_id uuid,
-    app_configs jsonb DEFAULT '{}'::jsonb,
+    name character varying,
+    "position" character varying,
+    salary double precision,
+    active boolean DEFAULT true,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    code character varying DEFAULT concat('EMP', nextval('public.employee_codes'::regclass)) NOT NULL
 );
 
 
@@ -104,11 +116,11 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 
 --
--- Name: merchant_partner_configs merchant_partner_configs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: employees employees_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.merchant_partner_configs
-    ADD CONSTRAINT merchant_partner_configs_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.employees
+    ADD CONSTRAINT employees_pkey PRIMARY KEY (id);
 
 
 --
@@ -117,27 +129,6 @@ ALTER TABLE ONLY public.merchant_partner_configs
 
 ALTER TABLE ONLY public.schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
-
-
---
--- Name: index_merchant_partner_configs_on_client_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_merchant_partner_configs_on_client_id ON public.merchant_partner_configs USING btree (client_id);
-
-
---
--- Name: index_merchant_partner_configs_on_merchant_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_merchant_partner_configs_on_merchant_id ON public.merchant_partner_configs USING btree (merchant_id);
-
-
---
--- Name: index_merchant_partner_configs_on_merchant_id_and_client_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_merchant_partner_configs_on_merchant_id_and_client_id ON public.merchant_partner_configs USING btree (merchant_id, client_id);
 
 
 --

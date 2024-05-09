@@ -17,7 +17,7 @@ type LoggingFunc func(message string, fields ...zapcore.Field)
 
 const (
 	INFO  = 1
-	ERROR = 3
+	ERROR = 2
 )
 
 func Init(mode int, env environment.Environment) {
