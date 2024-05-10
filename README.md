@@ -3,7 +3,7 @@
 # create a development.env
 cp env.sample development.env
 
-replace with your own local configuration
+# replace with your own local configuration
 loadenv()
 {
   echo "Loading $1"
@@ -14,7 +14,7 @@ loadenv()
 
 export -f loadenv
 
-#create db and migrate
+# create db and migrate
 bundle exec rake db:create
 bundle exec rake db:migrate
 
