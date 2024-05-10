@@ -1,5 +1,3 @@
-# practice
-
 # create a development.env
 cp env.sample development.env
 
