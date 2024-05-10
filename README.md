@@ -34,8 +34,10 @@ Table employees {
 code is automatically with prefix EMP followed by 4 digit code in sequntial order(EMP1001)
 
 Rest api is created with following operations
+```
 Create
 Update
 Get
 GetAll
+```
 Delete is not created we can update the active column to false
