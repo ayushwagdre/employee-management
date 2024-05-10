@@ -42,3 +42,8 @@ Get
 GetAll
 ```
 Delete is not created we can update the active column to false
+
+link to video
+```
+https://drive.google.com/file/d/1HYr4OvZ0oZ1R9PbncUFtPYI5f3L7hdSX/view?usp=drive_link
+```
