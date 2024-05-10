@@ -3,6 +3,7 @@
 cp env.sample development.env
 
 # replace with your own local configuration
+```
 loadenv()
 {
   echo "Loading $1"
@@ -10,7 +11,7 @@ loadenv()
     export $i
   done
 }
-
+```
 export -f loadenv
 
 migration is taken by active record migration
