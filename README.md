@@ -19,4 +19,23 @@ bundle exec rake db:create
 # create tables
 bundle exec rake db:migrate
 
+Table structure
 
+Table employees {
+  id uuid [primary key, default: 'uuid_generate_v4()']
+  name varchar
+  position varchar
+  salary float
+  active boolean [default: true]
+  code varchar [default: "'EMP' || lpad(nextval('employee_codes')::text, 4, '0')"]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+}
+
+code is automatically with prefix EMP followed by 4 digit code in sequntial order(EMP1001)
+
+Rest api is created with following operations
+Create
+Update
+Get
+GetAll
+Delete is not created we can update the active column to false
