@@ -20,7 +20,7 @@ bundle exec rake db:create
 bundle exec rake db:migrate
 
 Table structure
-
+```
 Table employees {
   id uuid [primary key, default: 'uuid_generate_v4()']
   name varchar
@@ -30,7 +30,7 @@ Table employees {
   code varchar [default: "'EMP' || lpad(nextval('employee_codes')::text, 4, '0')"]
   created_at timestamp [default: `CURRENT_TIMESTAMP`]
 }
-
+```
 code is automatically with prefix EMP followed by 4 digit code in sequntial order(EMP1001)
 
 Rest api is created with following operations
