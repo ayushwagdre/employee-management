@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	PostgresDriver = "nrpgx"
+	PostgresDriver = "pgx"
 )
 
 var dbInstance *dbClient

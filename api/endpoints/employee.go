@@ -86,7 +86,6 @@ func (e *employeeEndpoints) Get(req *web.Request) web.Response {
 	}
 
 	employee, err = e.service.Get(req.Context(), params.Code)
-
 	if err != nil {
 		return e.errorResponse(err)
 	}
@@ -109,7 +108,6 @@ func (e *employeeEndpoints) GetAll(req *web.Request) web.Response {
 	}
 
 	employee, err = e.service.GetAll(req.Context(), params.Offset, params.Limit)
-
 	if err != nil {
 		return e.errorResponse(err)
 	}
@@ -151,8 +149,8 @@ func (e *employeeEndpoints) errorResponse(err error) web.Response {
 	switch {
 	case errors.Is(err, errors.ErrBadRequest):
 		return web.ErrBadRequest(err.Error(), web.V1Api)
-	case errors.Is(err, ErrRecordNotFound):
-		return web.NewError(errors.Original(err).Code(), "merchant partner employee not found", web.StatusBadRequest, web.V1Api)
+	case errors.Is(err, errors.ErrRecordNotFound):
+		return web.NewError(errors.Original(err).Code(), "employee record not found", web.StatusBadRequest, web.V1Api)
 	default:
 		return web.ErrInternalServerError(err.Error(), web.V1Api)
 	}

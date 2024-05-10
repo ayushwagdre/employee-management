@@ -92,9 +92,9 @@ CREATE TABLE public.employees (
     "position" character varying,
     salary double precision,
     active boolean DEFAULT true,
+    code character varying DEFAULT concat('EMP', lpad((nextval('public.employee_codes'::regclass))::text, 4, '0'::text)),
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    code character varying DEFAULT concat('EMP', nextval('public.employee_codes'::regclass)) NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 

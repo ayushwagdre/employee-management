@@ -6,6 +6,7 @@ import (
 	"context"
 	"time"
 
+	"practice/lib/errors"
 	"practice/models"
 	repository "practice/repositories"
 )
@@ -66,6 +67,9 @@ func (m *employeeService) Create(ctx context.Context, opts *UpsertEmployeeDetail
 func (m *employeeService) Get(ctx context.Context, code string) (GetEmployeeDetails, error) {
 	employeeDetail, err := m.employeeRepo.Get(ctx, code)
 	if err != nil {
+		if errors.Is(err, repository.ErrRecordNotFound) {
+			return GetEmployeeDetails{}, errors.ErrRecordNotFound
+		}
 		return GetEmployeeDetails{}, err
 	}
 

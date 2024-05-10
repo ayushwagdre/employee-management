@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"practice/config"
 	"practice/lib/db"
+	"strings"
 	"time"
 
 	"gorm.io/gorm"
@@ -15,19 +16,22 @@ import (
 var testDbClient db.DB
 
 func SetupDB(config *config.Config) {
-	var err error
 	testDbClient = db.NewDB(&db.DBOpts{
 		URL:                   config.DB.URL,
 		MaxIdleConnection:     10,
 		MaxActiveConnection:   10,
 		MaxConnectionLifetime: time.Hour,
-		DriverName:            "nrpgx",
+		DriverName:            "pgx",
 	})
 
 	testDbClient.Connect()
+
+	sqlDB, err := db.Get().Get().DB()
 	if err != nil {
 		panic(err)
 	}
+	loadDBSchema(sqlDB)
+
 }
 
 func loadDBSchema(sqlDB *sql.DB) {
@@ -46,9 +50,35 @@ func loadDBSchema(sqlDB *sql.DB) {
 }
 
 func ClearDataFromPostgres(db *gorm.DB) {
-	sqlDB, err := db.DB()
+	truncateAllTables(db)
+}
+
+func truncateAllTables(db *gorm.DB) error {
+	tableNames, err := loadTableNames(db)
 	if err != nil {
-		panic(err)
+		return err
 	}
-	loadDBSchema(sqlDB)
+
+	if err := db.Exec("TRUNCATE TABLE " + strings.Join(tableNames, ", ")).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func loadTableNames(db *gorm.DB) ([]string, error) {
+	rows, err := db.Raw("select table_name from information_schema.tables where table_schema='public'").Rows()
+	if err != nil {
+		return nil, err
+	}
+
+	var tableNames []string
+	for rows.Next() {
+		var name string
+		if err := rows.Scan(&name); err != nil {
+			return nil, err
+		}
+		tableNames = append(tableNames, name)
+	}
+
+	return tableNames, nil
 }
