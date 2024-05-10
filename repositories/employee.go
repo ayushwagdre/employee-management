@@ -48,7 +48,7 @@ func (r *employeeRepository) Get(ctx context.Context, code string) (*models.Empl
 
 func (r *employeeRepository) GetAll(ctx context.Context, offset, limit int) ([]*models.Employee, error) {
 	var employees []*models.Employee
-	err := r.db.Get().Order("id").Offset(offset).Limit(limit).Find(&employees).Error
+	err := r.db.Get().Order("code").Offset(offset).Limit(limit).Find(&employees).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, errors.Wrap(ErrRecordNotFound, "no employee records found")

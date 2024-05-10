@@ -20,7 +20,7 @@ type getOrUpdateDetailsRequest struct {
 }
 
 type getAllDetailsRequest struct {
-	Offset int `json:"offset,string" validate:"required"`
+	Offset int `json:"offset,string"`
 	Limit  int `json:"limit,string" validate:"required"`
 }
 
@@ -69,7 +69,7 @@ func (e *employeeEndpoints) Create(req *web.Request) web.Response {
 	}
 
 	resp := &upsertDetailsResponse{
-		Message: "upserted successfully",
+		Message: "created successfully",
 	}
 	return web.NewSuccessResponse(resp, web.StatusOK, web.V1Api)
 }
@@ -140,7 +140,7 @@ func (e *employeeEndpoints) Update(req *web.Request) web.Response {
 	}
 
 	resp := &upsertDetailsResponse{
-		Message: "upserted successfully",
+		Message: "updated successfully",
 	}
 	return web.NewSuccessResponse(resp, web.StatusOK, web.V1Api)
 }
