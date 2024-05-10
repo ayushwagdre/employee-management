@@ -4,6 +4,7 @@ package services
 
 import (
 	"context"
+	"sync"
 	"time"
 
 	"practice/lib/errors"
@@ -35,6 +36,7 @@ type EmployeeService interface {
 
 type employeeService struct {
 	employeeRepo repository.EmployeeRepository
+	mutex        sync.Mutex // Mutex for synchronization
 }
 
 const (
@@ -102,7 +104,8 @@ func (m *employeeService) GetAll(ctx context.Context, offset, limit int) ([]GetE
 }
 
 func (m *employeeService) Update(ctx context.Context, updateOpts *UpsertEmployeeDetailsOpts, employeeCode string) error {
-
+	m.mutex.Lock()
+	defer m.mutex.Unlock()
 	params := &models.Employee{
 		Name:     updateOpts.Name,
 		Position: updateOpts.Position,

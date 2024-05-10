@@ -1,3 +1,4 @@
+
 # create a development.env
 cp env.sample development.env
 
@@ -12,7 +13,10 @@ loadenv()
 
 export -f loadenv
 
-# create db and migrate
+migration is taken by active record migration
+# create database
 bundle exec rake db:create
+# create tables
 bundle exec rake db:migrate
+
 
