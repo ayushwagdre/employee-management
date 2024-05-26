@@ -4,12 +4,13 @@ package services
 
 import (
 	"context"
+	"fmt"
 	"sync"
-	"time"
 
 	"practice/lib/errors"
 	"practice/models"
 	repository "practice/repositories"
+	"practice/utils"
 )
 
 type GetEmployeeDetails struct {
@@ -25,6 +26,7 @@ type UpsertEmployeeDetailsOpts struct {
 	Position string
 	Salary   float64
 	Active   *bool
+	Password string
 }
 
 type EmployeeService interface {
@@ -39,11 +41,6 @@ type employeeService struct {
 	mutex        sync.Mutex // Mutex for synchronization
 }
 
-const (
-	merchantConfigCachePrefix          = "merchant:config"
-	merchantConfigCacheTimeoutDuration = 15 * time.Minute
-)
-
 func NewEmployeeService() EmployeeService {
 	return &employeeService{
 		employeeRepo: repository.NewEmployeeRepository(),
@@ -52,14 +49,20 @@ func NewEmployeeService() EmployeeService {
 
 func (m *employeeService) Create(ctx context.Context, opts *UpsertEmployeeDetailsOpts) error {
 
+	hashPassword, err := utils.HashPassword(opts.Password)
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	params := &models.Employee{
 		Name:     opts.Name,
 		Position: opts.Position,
 		Salary:   opts.Salary,
 		Active:   opts.Active,
+		Password: hashPassword,
 	}
 
-	err := m.employeeRepo.Create(ctx, params)
+	err = m.employeeRepo.Create(ctx, params)
 	if err != nil {
 		return err
 	}
@@ -107,11 +110,27 @@ func (m *employeeService) Update(ctx context.Context, updateOpts *UpsertEmployee
 	m.mutex.Lock()
 	defer m.mutex.Unlock()
 	params := &models.Employee{
-		Name:     updateOpts.Name,
-		Position: updateOpts.Position,
-		Salary:   updateOpts.Salary,
-		Active:   updateOpts.Active,
-		Code:     employeeCode,
+		Code: employeeCode,
+	}
+
+	if params.Name != "" {
+		params.Name = updateOpts.Name
+	}
+	if params.Position != "" {
+		params.Position = updateOpts.Position
+	}
+	if params.Salary != 0 {
+		params.Salary = updateOpts.Salary
+	}
+	if params.Active != nil {
+		params.Active = updateOpts.Active
+	}
+	if params.Password != "" {
+		hashPassword, err := utils.HashPassword(params.Password)
+		if err != nil {
+			return err
+		}
+		params.Password = hashPassword
 	}
 
 	err := m.employeeRepo.Update(ctx, params)

@@ -10,6 +10,7 @@ type Employee struct {
 	Salary    float64   `gorm:"column:salary"`
 	Active    *bool     `gorm:"column:active"`
 	Code      string    `gorm:"<-:false"`
+	Password  string    `gorm:"column:password_digest"`
 	CreatedAt time.Time `gorm:"column:created_at"`
 	UpdatedAt time.Time `gorm:"column:updated_at"`
 }

@@ -8,11 +8,20 @@ import (
 	"practice/services"
 )
 
-type upsertDetailsRequest struct {
+type createDetailsRequest struct {
 	Name     string  `json:"name" validate:"required"`
 	Position string  `json:"position" validate:"required"`
 	Salary   float64 `json:"salary" validate:"required"`
 	Active   *bool   `json:"active"`
+	Password string  `json:"password" validate:"required"`
+}
+
+type updateDetailsRequest struct {
+	Name     string  `json:"name"`
+	Position string  `json:"position" `
+	Salary   float64 `json:"salary"`
+	Active   *bool   `json:"active"`
+	Password string  `json:"password"`
 }
 
 type getOrUpdateDetailsRequest struct {
@@ -54,7 +63,7 @@ func NewEmployeeEndpoints() EmployeeEndpoints {
 }
 
 func (e *employeeEndpoints) Create(req *web.Request) web.Response {
-	params := &upsertDetailsRequest{}
+	params := &createDetailsRequest{}
 	err := req.ParseAndValidateBody(params)
 	if err != nil {
 		return e.errorResponse(err)
@@ -119,7 +128,7 @@ func (e *employeeEndpoints) GetAll(req *web.Request) web.Response {
 }
 
 func (e *employeeEndpoints) Update(req *web.Request) web.Response {
-	params := &upsertDetailsRequest{}
+	params := &updateDetailsRequest{}
 	err := req.ParseAndValidateBody(params)
 	if err != nil {
 		return e.errorResponse(err)

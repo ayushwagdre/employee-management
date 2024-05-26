@@ -94,7 +94,8 @@ CREATE TABLE public.employees (
     active boolean DEFAULT true,
     code character varying DEFAULT concat('EMP', lpad((nextval('public.employee_codes'::regclass))::text, 4, '0'::text)),
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    password_digest character varying
 );
 
 
@@ -139,6 +140,7 @@ SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
 ('20230726000000'),
-('20230727000000');
+('20230727000000'),
+('20240525000000');
 
 
