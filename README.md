@@ -1,4 +1,9 @@
-
+Funcationality 
+login 
+create employee
+get employee
+getall employee
+update employee
 # create a development.env
 cp env.sample development.env
 
